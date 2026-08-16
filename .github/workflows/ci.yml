@@ -1,0 +1,30 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          echo "Building Web Application..."
+          test -f index.html
+          echo "Build Successful!"
+
+      - name: Test
+        run: |
+          echo "Running tests..."
+          grep -q "Hello DevOps" index.html
+          echo "Tests Passed!"
+
+      - name: Generate Logs
+        run: |
+          echo "CI Pipeline completed successfully"
+          date
