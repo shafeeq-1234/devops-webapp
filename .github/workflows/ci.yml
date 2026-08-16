@@ -26,5 +26,21 @@ jobs:
 
       - name: Generate Logs
         run: |
-          echo "CI Pipeline completed successfully"
+          echo "CI Pipeline completed"
           date
+
+      - name: Slack Success Notification
+        if: success()
+        run: |
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{"text":"✅ CI/CD Build Successful - devops-webapp"}' \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
+
+      - name: Slack Failure Notification
+        if: failure()
+        run: |
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{"text":"❌ CI/CD Build Failed - devops-webapp"}' \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
